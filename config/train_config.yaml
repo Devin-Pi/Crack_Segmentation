@@ -1,0 +1,23 @@
+# USUAL SETTING
+batch_size: 8
+num_workers: 8
+input_shape: [475, 475]
+n_classes: 1
+pretrained: True
+# OPTIMIZER:
+optimizer: adam
+max_lr: 0.0001
+min_lr: 0.000001
+momentum: 0.9
+weight_decay: 0
+lr_decay_type: 'cos'
+
+# DDP SETTING
+cuda: True
+distributed: True
+sync_bn: True
+# VARIOUS PATHS
+save_dir: "/unet-semantic/weights/"
+data_path: "/unet-semantic/data/crack_seg/" #'/unet-semantic/data/VOCdevkit/VOC2012/'
+model_path: "/unet-semantic/weights/pretrained_weight.pth"
+save_period: 20
