@@ -1,8 +1,9 @@
 # USUAL SETTING
 batch_size: 8
+test_batch_size: 1
 num_workers: 8
 input_shape: [475, 475]
-n_classes: 1
+n_classes: 2
 pretrained: True
 # OPTIMIZER:
 optimizer: adam
@@ -21,3 +22,4 @@ save_dir: "/unet-semantic/weights/"
 data_path: "/unet-semantic/data/crack_seg/" #'/unet-semantic/data/VOCdevkit/VOC2012/'
 model_path: "/unet-semantic/weights/pretrained_weight.pth"
 save_period: 20
+result_dir: /unet-semantic/result/

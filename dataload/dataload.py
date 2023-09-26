@@ -29,6 +29,7 @@ def make_datapath_list(rootpath):
     #训练和验证，分别获取相应的文件 ID（文件名）
     train_id_names = osp.join(rootpath + 'ImageSets/Segmentation/train.txt')
     val_id_names = osp.join(rootpath + 'ImageSets/Segmentation/val.txt')
+    test_id_names = osp.join(rootpath + "ImageSets/Segmentation/test.txt")
 
     #创建指向训练数据的图像文件和标注文件的路径列表变量
     train_img_list = list()
@@ -52,7 +53,17 @@ def make_datapath_list(rootpath):
         val_img_list.append(img_path)
         val_anno_list.append(anno_path)
 
-    return train_img_list, train_anno_list, val_img_list, val_anno_list
+    test_img_list = list()
+    test_anno_list = list()
+    
+    for line in open(test_id_names):
+        file_id = line.strip() #删除空格和换行符
+        img_path = (imgpath_template % file_id) #图像的路径
+        anno_path = (annopath_template % file_id) #标注数据的路径
+        test_img_list.append(img_path)
+        test_anno_list.append(anno_path)
+        
+    return train_img_list, train_anno_list, val_img_list, val_anno_list, test_img_list, test_anno_list
 
 
 class DataTransform():
@@ -84,6 +95,10 @@ class DataTransform():
             'val': Compose([
                 Resize(input_size),  #调整图像尺寸(input_size)
                 Normalize_Tensor(color_mean, color_std)  #颜色信息的正规化和张量化
+            ]),
+            'test': Compose([
+                Resize(input_size),
+                Normalize_Tensor(color_mean, color_std)
             ])
         }
 

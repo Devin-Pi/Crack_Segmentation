@@ -6,3 +6,6 @@
 /pretrained_ckpt
 /runs
 /outputs
+/dataset_0
+/*.jpg
+/*.png

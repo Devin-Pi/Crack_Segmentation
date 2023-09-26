@@ -5,6 +5,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+from model.spb import SpectralBlock
 
 import lightning as l
 from torchmetrics import JaccardIndex
@@ -94,7 +95,7 @@ class Up(nn.Module):
 class UNet(l.LightningModule):
     def __init__(self, c_in, c_out):
         super(UNet, self).__init__()
-        
+    
         self.save_hyperparameters()
         # self.train_loss = nn.BCELoss()
         # self.val_loss = nn.BCELoss()
@@ -133,29 +134,11 @@ class UNet(l.LightningModule):
         self.outc = nn.Conv2d(64, self.c_out, kernel_size=1)
         self.sigmoid = nn.Sigmoid()
         self.dropout = nn.Dropout2d(p=0.2)
-        # 475*475
-        # self.c_out = c_out
-        # self.c_in = c_in
-        # self.inc = DoubleConv(self.c_in, 64)
-        # self.down1 = Down(64, 128)
-        # self.sa1 = SelfAttention(128, 237)
-        # self.down2 = Down(128, 256)
-        # self.sa2 = SelfAttention(256, 118)
-        # self.down3 = Down(256, 256)
-        # self.sa3 = SelfAttention(256, 59)
 
-        # self.bot1 = DoubleConv(256, 512)
-        # self.bot2 = DoubleConv(512, 512)
-        # self.bot3 = DoubleConv(512, 256)
-
-        # self.up1 = Up(512, 128)
-        # self.sa4 = SelfAttention(128, 16)
-        # self.up2 = Up(256, 64)
-        # self.sa5 = SelfAttention(64, 32)
-        # self.up3 = Up(128, 64)
-        # self.sa6 = SelfAttention(64, 64)
-        # self.outc = nn.Conv2d(64, self.c_out, kernel_size=1)
-
+        self.spb_128 = SpectralBlock(128, 128, 128)
+        self.spb_256 = SpectralBlock(256, 64, 64)
+        self.spb_512 = SpectralBlock(512, 32, 32)        
+        
     def training_step(self, batch, batch_idx):
 
         imgs, pngs = batch
@@ -165,14 +148,17 @@ class UNet(l.LightningModule):
 
         x1 = self.inc(imgs)
         x2 = self.down1(x1)
+        x2 = self.spb_128(x2)
         # x2 = self.sa1(x2)
         x3 = self.down2(x2)
+        x3 = self.spb_256(x3)
         # x3 = self.sa2(x3)
         x4 = self.down3(x3)
         # x4 = self.sa3(x4)
 
 
         x4 = self.bot1(x4)
+        x4 = self.spb_512(x4)
         x4 = self.bot2(x4)
         x4 = self.bot3(x4)
 

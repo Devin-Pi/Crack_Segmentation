@@ -11,17 +11,17 @@ from lightning.pytorch.loggers import CometLogger
 from model.unet import UNet
 from utils.load_config import load_config
 from dataload.dataload import make_datapath_list, VOCDataset, DataTransform
-
+CUDA_LAUNCH_BLOCKING = 1
 def main(args):
     
     train_config = load_config(args.train_config_path)
     
     l.seed_everything(1744)
     
-    model = UNet(c_in=3,c_out=2)
+    model = UNet(c_in = 3, c_out = 2 )
     
     data_path = train_config['data_path']
-    train_img_list, train_anno_list, val_img_list, val_anno_list = make_datapath_list(data_path)
+    train_img_list, train_anno_list, val_img_list, val_anno_list, _, _ = make_datapath_list(data_path)
     
     color_mean = (0.485, 0.456, 0.406)
     clolor_std = (0.229, 0.224, 0.225)
@@ -65,7 +65,7 @@ def main(args):
         # precision='16-mixed',
         # SingleDeviceStrategy(),
         # accelerator='cpu',
-        max_epochs=220,
+        max_epochs=500,
         sync_batchnorm=True,
         # fast_dev_run=10,
         callbacks=[model_checpoint],
