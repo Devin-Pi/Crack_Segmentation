@@ -158,7 +158,7 @@ class UNet(l.LightningModule):
 
 
         x4 = self.bot1(x4)
-        x4 = self.spb_512(x4)
+        # x4 = self.spb_512(x4)
         x4 = self.bot2(x4)
         x4 = self.bot3(x4)
 
@@ -211,8 +211,10 @@ class UNet(l.LightningModule):
         x1 = self.inc(imgs)
 
         x2 = self.down1(x1)
+        x2 = self.spb_128(x2)
         # x2 = self.sa1(x2)
         x3 = self.down2(x2)
+        x3 = self.spb_256(x3)
         # x3 = self.sa2(x3)
         x4 = self.down3(x3)
         # x4 = self.sa3(x4)
@@ -262,8 +264,10 @@ class UNet(l.LightningModule):
 
         x1 = self.inc(imgs)
         x2 = self.down1(x1)
+        x2 = self.spb_128(x2)
         # x2 = self.sa1(x2)
         x3 = self.down2(x2)
+        x3 = self.spb_256(x3)
         # x3 = self.sa2(x3)
         x4 = self.down3(x3)
         # x4 = self.sa3(x4)

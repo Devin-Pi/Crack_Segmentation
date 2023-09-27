@@ -29,7 +29,7 @@ test_dataloader = DataLoader(test_dataset,
                                   pin_memory=True,
                                   drop_last=True)
 model = UNet(c_in=3,c_out=2)
-model = model.load_from_checkpoint("/unet-semantic/check_point/last.ckpt",
+model = model.load_from_checkpoint("/unet-semantic/check_point/last-v2.ckpt",
                                    map_location='cpu')
 
 # model.cuda()

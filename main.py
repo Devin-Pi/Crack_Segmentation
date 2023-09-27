@@ -11,7 +11,10 @@ from lightning.pytorch.loggers import CometLogger
 from model.unet import UNet
 from utils.load_config import load_config
 from dataload.dataload import make_datapath_list, VOCDataset, DataTransform
-CUDA_LAUNCH_BLOCKING = 1
+
+
+
+
 def main(args):
     
     train_config = load_config(args.train_config_path)
@@ -55,7 +58,7 @@ def main(args):
     
     comet_logger = CometLogger(api_key='w0Npr1BzeXnixD0UOBF6onh5d',
                                project_name='crack_segmentation',
-                               experiment_name='unet-0',
+                               experiment_name='unet-with_2_spb',
                                workspace = 'semantic',
                                save_dir='.',
                                )

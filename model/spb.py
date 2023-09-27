@@ -62,3 +62,7 @@ class SpectralFFT(nn.Module):
         x = x.reshape(B, C, H, W)
 
         return x
+
+# class MLP(nn.Module):
+#     def __init__(self):
+#         super().__init__()

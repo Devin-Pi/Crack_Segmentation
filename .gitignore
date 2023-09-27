@@ -10,3 +10,5 @@
 /*.jpg
 /*.png
 /result
+/result_img_output_origin_unet
+/result_origin_unet

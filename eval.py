@@ -54,8 +54,9 @@ def main(cfg: DictConfig) -> None:
     
     l.seed_everything(1744)
     
-    model = UNet(c_in=3,c_out=2)
-    
+    model = UNet(c_in=3, c_out=2)
+    model = model.load_from_checkpoint("/unet-semantic/check_point/last-v3.ckpt",
+                                   map_location='cpu')
     data_path = cfg.data_path #train_config['data_path']
     _, _, _, _, test_img_list, test_anno_list = make_datapath_list(data_path)
     
